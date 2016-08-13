@@ -1,6 +1,7 @@
 # osu! Replay downloader
+***Download osu!replay files!***
 
-Download osu!replay files!
+Make sure to have at least nodejs *v5.10.0* installed!
 
 Before first use make sure to `npm install` and `npm install -g iced-coffee-script`
 
