@@ -5,7 +5,7 @@ commander = require 'commander'
 commander
     .version('0.0.1')
     .option('-k, --api-key <k>', 'osu api key')
-    .option('-m, --mode <m>', 'the mode the score was played in')
+    .option('-m, --mode <m>', 'the mode the score was played in (default: 0)')
     .option('-b, --beatmap-id <b>', 'the beatmap ID (not beatmap set ID!) in which the replay was played')
     .option('-u, --user-id <u>', 'the user that has played the beatmap')
     .option('-o, --output-file <file>', 'the osr-file to save (if not specified it uses stdout)')
@@ -17,14 +17,19 @@ uleb128 = require 'uleb128'
 fs = require 'fs'
 crypto = require 'crypto'
 
-if not commander.mode or not commander.beatmapId or not commander.userId
+if commander.mode
+    gameMode = parseInt commander.mode
+else
+    gameMode = 0
+
+if not commander.beatmapId or not commander.userId
     console.error 'missing params :('
     process.exit 1
     return
 
 # lets build some urls we can query
-urlFormat1 = "https://osu.ppy.sh/api/%s?k=#{commander.apiKey}&u=#{commander.userId}&m=#{commander.mode}&b=#{commander.beatmapId}"
-urlFormat2 = "https://osu.ppy.sh/api/%s?k=#{commander.apiKey}&m=#{commander.mode}&b=#{commander.beatmapId}"
+urlFormat1 = "https://osu.ppy.sh/api/%s?k=#{commander.apiKey}&u=#{commander.userId}&m=#{gameMode}&b=#{commander.beatmapId}"
+urlFormat2 = "https://osu.ppy.sh/api/%s?k=#{commander.apiKey}&m=#{gameMode}&b=#{commander.beatmapId}"
 
 getReplayUrl = util.format urlFormat1, 'get_replay'
 getScoresUrl = util.format urlFormat1, 'get_scores'
@@ -121,7 +126,7 @@ else
     outStream = process.stdout
 
 # write all the things: https://osu.ppy.sh/wiki/Osr_(file_format)
-writeByte outStream, parseInt commander.mode
+writeByte outStream, gameMode
 writeInteger outStream, 20151228
 writeString outStream, beatmap.file_md5
 writeString outStream, score.username
