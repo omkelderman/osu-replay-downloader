@@ -1,11 +1,11 @@
 # osu! Replay downloader
 ***Download osu!replay files!***
 
-Make sure to have at least nodejs *v5.10.0* installed!
+Make sure to have at least nodejs *v7.6.0* installed! (or whatever the version is where async/await works properly)
 
-Before first use make sure to `npm install` and `npm install -g iced-coffee-script`
+Before first use make sure to `npm install`.
 
-Usage: `iced fetch.iced -k <api-key> -m <mode> -u <user-id> -b <beatmap-id> [-o <output-file>]`
+Usage: `node fetch.js -k <api-key> -m <mode> -u <user-id> -b <beatmap-id> [--mods <bitmask>] [-o <output-file>]`
 
 When no output-file is given, stdout will be used.
 

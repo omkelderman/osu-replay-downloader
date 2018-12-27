@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "commander": "^2.9.0",
-    "request": "^2.74.0",
+    "commander": "^2.19.0",
+    "request": "^2.88.0",
     "uleb128": "^1.0.1"
   }
 }
