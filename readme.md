@@ -5,9 +5,12 @@ Make sure to have at least nodejs *v7.6.0* installed! (or whatever the version i
 
 Before first use make sure to `npm install`.
 
-Usage: `node fetch.js -k <api-key> -m <mode> -u <user-id> -b <beatmap-id> [--mods <bitmask>] [-o <output-file>]`
+Usage: `node fetch.js -k <api-key> -u <user-id> -b <beatmap-id> [-m <mode>] [--mods <bitmask>] [-o <output-file>]`
 
-When no output-file is given, stdout will be used.
+Notes:
+* When no mode is given, it defaults to std.
+* When no mods is given, it defaults to the first score it finds on the server, which I think is the score with the highest PP.
+* When no output-file is given, stdout will be used.
 
 Get an api-key here: https://osu.ppy.sh/p/api
 
