@@ -63,8 +63,9 @@ function getReplay() {
 }
 
 class WritestreamWrapper {
-    constructor(stream) {
+    constructor(stream, streamIsClosable) {
         this.stream = stream;
+        this.streamIsClosable = streamIsClosable;
     }
 
     write(data) {
@@ -128,7 +129,7 @@ class WritestreamWrapper {
     }
 
     end() {
-        this.stream.end();
+        if(this.streamIsClosable) this.stream.end();
     }
 }
 
@@ -169,8 +170,12 @@ async function run() {
     const replayData = Buffer.from(replay.content, 'base64');
 
     // create output stream
-    const stream = commander.outputFile ? fs.createWriteStream(commander.outputFile) : process.stdout;
-    const out = new WritestreamWrapper(stream);
+    let out;
+    if(commander.outputFile) {
+        out = new WritestreamWrapper(fs.createWriteStream(commander.outputFile), true);
+    } else {
+        out = new WritestreamWrapper(process.stdout, false);
+    }
 
     // write all the things: https://osu.ppy.sh/help/wiki/osu%21_File_Formats%2FOsr_%28file_format%29
     out.writeByte(gameMode);
