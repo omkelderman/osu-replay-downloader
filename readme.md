@@ -5,9 +5,10 @@ Make sure to have at least nodejs *v7.6.0* installed! (or whatever the version i
 
 Before first use make sure to `npm install`.
 
-Usage: `node fetch.js -k <api-key> -u <user-id> -b <beatmap-id> [-m <mode>] [--mods <bitmask>] [-o <output-file>]`
+Usage: `node fetch.js -k <api-key> -u <user-id> -b <beatmap-id> [-h <beatmap-hash>] [-m <mode>] [--mods <bitmask>] [-o <output-file>]`
 
 Notes:
+* Optionally provide the beatmap-hash, so the script doesnt have to fetch it from the API. Saves an API-call if you already have the data.
 * When no mode is given, it defaults to std.
 * When no mods is given, it defaults to the first score it finds on the server, which I think is the score with the highest PP.
 * When no output-file is given, stdout will be used.

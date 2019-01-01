@@ -8,6 +8,7 @@ commander
     .option('-k, --api-key <k>', 'osu api key')
     .option('-m, --mode <m>', 'the mode the score was played in (default: 0)')
     .option('-b, --beatmap-id <b>', 'the beatmap ID (not beatmap set ID!) in which the replay was played')
+    .option('-h, --beatmap-hash <md5-hash>', 'the beatmap MD5-hash of the beatmap. When provided it saves an api call. If not provided it fetches it from the api.')
     .option('-u, --user-id <u>', 'the user that has played the beatmap')
     .option('--mods <mods-bitmask>', 'bitmask of the used mods. If not specified, a random score will be picked (I think the one with highest pp), so it does NOT default to nomod!')
     .option('-o, --output-file <file>', 'the osr-file to save (if not specified it uses stdout)')
@@ -132,25 +133,27 @@ class WritestreamWrapper {
 }
 
 async function run() {
-    const pScores = getScores();
-    const pBeatmaps = getBeatmaps();
-
-    const [scores, beatmaps] = await Promise.all([pScores, pBeatmaps]);
-
+    const scores = await getScores();
     if(scores.length < 1) {
         throw new Error('score not found');
     }
-
-    if(beatmaps.length < 1) {
-        throw new Error('beatmap not found');
-    }
-
     const score = scores[0];
-    const beatmap = beatmaps[0];
 
     if(parseInt(score.replay_available) != 1) {
         throw new Error('replay data not available.');
     }
+
+    let beatmapHash;
+    if(commander.beatmapHash) {
+        beatmapHash = commander.beatmapHash;
+    } else {
+        const beatmaps = await getBeatmaps();
+        if(beatmaps.length < 1) {
+            throw new Error('beatmap not found');
+        }
+        beatmapHash = beatmaps[0].file_md5;
+    }
+
 
     const replay = await getReplay();
 
@@ -172,9 +175,9 @@ async function run() {
     // write all the things: https://osu.ppy.sh/help/wiki/osu%21_File_Formats%2FOsr_%28file_format%29
     out.writeByte(gameMode);
     out.writeInteger(20151228); // game-version. Just a static number like this is fine.
-    out.writeString(beatmap.file_md5);
+    out.writeString(beatmapHash);
     out.writeString(score.username);
-    let replayHashData = `${score.maxcombo}osu${score.username}${beatmap.file_md5}${score.score}${score.rank}`;
+    let replayHashData = `${score.maxcombo}osu${score.username}${beatmapHash}${score.score}${score.rank}`;
     out.writeString(crypto.createHash('md5').update(replayHashData).digest('hex'));
     out.writeShort(+score.count300);
     out.writeShort(+score.count100);
