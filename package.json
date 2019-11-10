@@ -4,5 +4,8 @@
     "commander": "^2.19.0",
     "request": "^2.88.0",
     "uleb128": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0"
   }
 }
