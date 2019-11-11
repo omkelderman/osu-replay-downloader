@@ -23,6 +23,7 @@ Run `node server.js`. Following environment variables are used for configuration
 * `API_KEY` your osu! api key. Mandatory, program will exit if not provided.
 * `LISTEN` port to listen on, or a path to a unix socket. Defaults to 3000.
 * `LISTEN_HOST` what interface to listen on, defaults to localhost
+* `LISTEN_CHMOD` if `LISTEN` is a socket file and this value is provided, this value will be used to chmod the socket file. Otherwise it does nothing.
 * `DOWNLOAD_PATH` what the url must be to the download action, defaults to `/download`
 
 This means that with default config the path to the download action is `http://localhost:3000/download`. Anything else will trigger a 404.

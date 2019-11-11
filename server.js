@@ -3,6 +3,7 @@ const urlParse = require('url').parse;
 const downloader = require('./downloader');
 const PassThrough = require('stream').PassThrough;
 const WritestreamWrapper = require('./WritestreamWrapper');
+const fs = require('fs');
 
 let LISTEN;
 if(process.env.LISTEN === undefined) {
@@ -18,6 +19,7 @@ if(process.env.LISTEN === undefined) {
 const LISTEN_HOST = process.env.LISTEN_HOST || 'localhost';
 const API_KEY = process.env.API_KEY;
 const DOWNLOAD_PATH = process.env.DOWNLOAD_PATH || '/download';
+const LISTEN_CHMOD = process.env.LISTEN_CHMOD;
 
 if(!API_KEY) {
     console.error('No API key provided!');
@@ -73,6 +75,7 @@ if(typeof LISTEN === 'number') {
     });
 } else {
     server.listen(LISTEN, () => {
+        fs.chmodSync(LISTEN, LISTEN_CHMOD);
         console.log(`Server running at ${LISTEN}`);
     });
 }
