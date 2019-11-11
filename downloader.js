@@ -9,7 +9,7 @@ function doApiCall(url) {
     return new Promise((resolve, reject) => {
         request.get({url: url, json: true}, (err, r, json) => {
             if(err) return reject(err);
-            if(r.statusCode != 200) return reject(new Error('no 200 statuscode'));
+            if(r.statusCode != 200) return reject(new Error('no 200 statuscode response from osu! API'));
             if(json.error) return reject(new Error('api error response: ' + json.error));
             resolve(json);
         });

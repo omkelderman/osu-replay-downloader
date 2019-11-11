@@ -19,7 +19,7 @@ const fs = require('fs');
 
 const gameMode = commander.mode ? parseInt(commander.mode) : 0;
 
-if(!commander.beatmapId || !commander.userId || isNaN(gameMode)) {
+if(!commander.beatmapId || !commander.userId || isNaN(gameMode) || gameMode < 0 || gameMode > 3) {
     console.error('Missing or invalid parameters');
     process.exitCode = 1;
     return;
