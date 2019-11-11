@@ -16,3 +16,22 @@ Notes:
 Get an api-key here: https://osu.ppy.sh/p/api
 
 *please note that due to how 'commander' works there has to be a space between the option and the option-argument, eg. `-m 0` and NOT `-m0`, dont ask me why*
+
+## Run as HTTP Server
+
+Run `node server.js`. Following environment variables are used for configuration:
+* `API_KEY` your osu! api key. Mandatory, program will exit if not provided.
+* `LISTEN` port to listen on, or a path to a unix socket. Defaults to 3000.
+* `LISTEN_HOST` what interface to listen on, defaults to localhost
+* `DOWNLOAD_PATH` what the url must be to the download action, defaults to `/download`
+
+This means that with default config the path to the download action is `http://localhost:3000/download`. Anything else will trigger a 404.
+
+Arguments are given via the querystring. Same arugments apply as with the commandline option.
+* `userId`
+* `beatmapId`
+* `beatmapHash`, optional, if provided saves one api call.
+* `mode`, optional, defaults to std
+* `mods`, optional, with the same caveat as above 
+
+Example: `http://localhost:3000/download?userId=718454&beatmapId=1201636&mode=0&mods=0`
