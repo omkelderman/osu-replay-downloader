@@ -79,3 +79,14 @@ if(typeof LISTEN === 'number') {
         console.log(`Server running at ${LISTEN}`);
     });
 }
+
+process.on('SIGTERM', () => process.emit('requestShutdown'));
+process.on('SIGINT', () => process.emit('requestShutdown'));
+process.once('requestShutdown', () => {
+    console.log('Shutting down...');
+    process.on('requestShutdown', () => process.emit(`process ${process.pid} already shutting down`));
+    server.close((err) => {
+        if(err) return console.error('error while stopping http server', err);
+        console.log('http server stopped');
+    });
+});
