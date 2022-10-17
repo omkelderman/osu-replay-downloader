@@ -1,11 +1,11 @@
 {
   "private": true,
   "dependencies": {
-    "commander": "^2.19.0",
-    "request": "^2.88.0",
+    "commander": "^9.4.1",
+    "request": "^2.88.2",
     "uleb128": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^6.6.0"
+    "eslint": "^8.25.0"
   }
 }

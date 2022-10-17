@@ -15,8 +15,6 @@ Notes:
 
 Get an api-key here: https://osu.ppy.sh/p/api
 
-*please note that due to how 'commander' works there has to be a space between the option and the option-argument, eg. `-m 0` and NOT `-m0`, dont ask me why*
-
 ## Run as HTTP Server
 
 Run `node server.js`. Following environment variables are used for configuration:
